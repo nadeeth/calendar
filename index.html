@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+	<head>
+		<title>TODO supply a title</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<h1></h1>
+		<script type="text/template" class="template">
+			
+			<table border="0">
+				<tr>
+				<%
+				var date = new Date(Date.now());
+				var month = pad(date.getMonth() + 1);
+				var year = date.getFullYear();
+				var first_day = new Date(year+'-'+ month +'-01');//First day of the month
+				var cur_day = new Date(first_day); //Current day in the loop
+                                
+                                var day_count = 0;
+
+				for (var i=0; i < 35; i++) {//Loop untill the first day of the next month
+
+					cur_day.setDate(first_day.getDate() + day_count);
+                                        
+                                        
+					if (i < first_day.getDay() || cur_day.getMonth() !== date.getMonth()) {
+						%><td></td><%
+					} else {
+					
+                                            day_count++;
+					
+					%>
+					<% if (i%7 === 0) { %><tr></tr><% } %>
+						<td> <%= dayNames[cur_day.getDay()] %> <span><%= cur_day.getDate() %></span> <%= monthNames[cur_day.getMonth()] %> </td>
+				<%
+					}
+				}
+				%>
+				</tr>
+			<table border="0">
+		</script>
+		<script src="jquery-1.9.1.js"></script>
+		<script src="underscore-min.js"></script>
+		<script type="text/javascript">
+			
+			var dayNames = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+			var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN","JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+			
+			function pad(n) {
+				return (n < 10) ? ("0" + n) : n;
+			}
+			
+			var template = _.template(
+				$( "script.template" ).html()
+			);
+			var templateData = {
+
+			};
+			$( "h1" ).after(
+				template( templateData )
+			);
+		</script>
+	</body>
+</html>
